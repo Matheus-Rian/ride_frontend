@@ -1,9 +1,10 @@
-import axios from "axios";
 import PassengerGateway from "./PassengerGateway";
+import HttpClient from "./http/HttpClient";
 
 export default class PassengerGatewayHttp implements PassengerGateway {
+  constructor (readonly httpClient: HttpClient) { }
+
   async save(passenger: any): Promise<void> {
-    const response = await axios.post('http://localhost:3000/passengers', passenger);
-    return response.data;
+    return await this.httpClient.post('http://localhost:3000/passengers', passenger);
   }
 }
