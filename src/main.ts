@@ -3,8 +3,10 @@ import './style.css'
 import App from './App.vue';
 import PassengerGatewayHttp from './infra/gateways/PassengerGatewayHttp';
 import DriverGatewayHttp from './infra/gateways/DriverGatewayHttp';
+import AxiosAdapter from './infra/gateways/http/AxiosAdapter';
 
 const app = createApp(App);
-app.provide('passengerGateway', new PassengerGatewayHttp());
-app.provide('driverGateway', new DriverGatewayHttp());
-app.mount('#app')
+const httpClient = new AxiosAdapter();
+app.provide('passengerGateway', new PassengerGatewayHttp(httpClient));
+app.provide('driverGateway', new DriverGatewayHttp(httpClient));
+app.mount('#app');
