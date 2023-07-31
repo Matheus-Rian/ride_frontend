@@ -1,11 +1,12 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import axios from 'axios';
+  import { inject, ref } from 'vue';
+  import PassengerGateway from './infra/gateways/PassengerGateway';
 
   const name = ref('');
   const email = ref('');
   const document = ref('');
   const passengerId = ref('');
+  const passengerGateway = inject('passengerGateway') as PassengerGateway;
 
   async function createPassenger() {
     const input = {
@@ -13,8 +14,7 @@
       email: email.value,
       document: document.value,
     }
-    const response = await axios.post('http://localhost:3000/passengers', input);
-    const output = response.data;
+    const output = await passengerGateway.save(input);
     passengerId.value = output.passengerId;
   }
 </script>
