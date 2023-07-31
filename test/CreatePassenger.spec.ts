@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import CreatePassengerVue from '../src/CreatePassenger.vue';
+import PassengerGateway from "../src/infra/gateways/PassengerGateway";
 
 function sleep(time: number) {
   return new Promise((resolve) => {
@@ -11,7 +12,18 @@ function sleep(time: number) {
 
 test('Deve criar um passageiro', async () => {
   // given
-  const wrapper = mount(CreatePassengerVue, {});
+  const passengerGateway: PassengerGateway = {
+    async save (passenger: any): Promise<any> {
+      return { passengerId: '46018082-2fa5-11ee-be56-0242ac120002' };
+    }
+  };
+  const wrapper = mount(CreatePassengerVue, {
+    global: {
+      provide: {
+        passengerGateway
+      }
+    }
+  });
   await wrapper.get('.passenger-name').setValue('John Doe');
   await wrapper.get('.passenger-email').setValue('john.doe@gmail.com');
   await wrapper.get('.passenger-document').setValue('83432616074');
