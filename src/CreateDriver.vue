@@ -7,6 +7,7 @@
   const document = ref('');
   const carPlate = ref('');
   const driverId = ref('');
+  const driverGateway = inject('driverGateway') as DriverGateway;
 
   async function createDriver() {
     const input = {
@@ -15,7 +16,6 @@
       document: document.value,
       carPlate: carPlate.value
     }
-    const driverGateway = inject('driverGateway') as DriverGateway;
     const output = await driverGateway.save(input);
     driverId.value = output.driverId;
   }
