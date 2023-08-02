@@ -14,7 +14,7 @@ test('Deve criar um motorista', async () => {
   // given
   const driverGateway: DriverGateway = {
     async save (driver: any): Promise<any> {
-      return { driverId: '46018082-2fa5-11ee-be56-0242ac120002' };
+      return '46018082-2fa5-11ee-be56-0242ac120002';
     }
   }
   const wrapper = mount(CreateDriverVue, {
