@@ -1,4 +1,4 @@
-import Passenger from "../../domain/passenger/Passenger";
+import Passenger from "../../domain/Passenger";
 import PassengerGateway from "./PassengerGateway";
 import HttpClient from "./http/HttpClient";
 
