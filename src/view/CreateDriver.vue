@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { inject, ref } from 'vue';
-  import DriverGateway from './infra/gateways/DriverGateway';
-  import { DriverBuilder } from './domain/Driver';
+  import DriverGateway from '../infra/gateways/DriverGateway';
+  import { DriverBuilder } from '../domain/Driver';
 
   const driverBuilder = ref(new DriverBuilder());
   const driver = ref();

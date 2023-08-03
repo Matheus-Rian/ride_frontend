@@ -1,8 +1,8 @@
 import { mount } from "@vue/test-utils";
-import CreatePassengerVue from '../src/CreatePassenger.vue';
-import PassengerGateway from "../src/infra/gateways/PassengerGateway";
-import PassengerGatewayHttp from "../src/infra/gateways/PassengerGatewayHttp";
-import AxiosAdapter from "../src/infra/gateways/http/AxiosAdapter";
+import PassengerGateway from "../../src/infra/gateways/PassengerGateway";
+import PassengerGatewayHttp from "../../src/infra/gateways/PassengerGatewayHttp";
+import AxiosAdapter from "../../src/infra/gateways/http/AxiosAdapter";
+import CreatePassengerVue from '../../src/view/CreatePassenger.vue';
 
 function sleep(time: number) {
   return new Promise((resolve) => {

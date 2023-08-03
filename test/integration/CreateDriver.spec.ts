@@ -1,8 +1,8 @@
 import { mount } from "@vue/test-utils";
-import CreateDriverVue from '../src/CreateDriver.vue';
-import DriverGateway from "../src/infra/gateways/DriverGateway";
-import DriverGatewayHttp from "../src/infra/gateways/DriverGatewayHttp";
-import AxiosAdapter from "../src/infra/gateways/http/AxiosAdapter";
+import CreateDriverVue from '../../src/view/CreateDriver.vue';
+import DriverGateway from "../../src/infra/gateways/DriverGateway";
+import DriverGatewayHttp from "../../src/infra/gateways/DriverGatewayHttp";
+import AxiosAdapter from "../../src/infra/gateways/http/AxiosAdapter";
 
 function sleep(time: number) {
   return new Promise((resolve) => {
