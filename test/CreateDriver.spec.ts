@@ -38,3 +38,24 @@ test('Deve criar um motorista', async () => {
   await sleep(200);
   expect(wrapper.get('.driver-id').text()).toHaveLength(36);
 })
+
+test('Não deve criar um motorista com o nome inválido', async () => {
+  // given
+  const wrapper = mount(CreateDriverVue, {
+    global: {
+      provide: {
+        driverGateway: new DriverGatewayHttp(new AxiosAdapter())
+      }
+    }
+  });
+  await wrapper.get('.driver-name').setValue('John');
+  await wrapper.get('.driver-email').setValue('john.doe@gmail.com');
+  await wrapper.get('.driver-document').setValue('83432616074');
+  await wrapper.get('.driver-car-plate').setValue('AAA9999');
+
+  // when
+  await wrapper.get('.create-driver-button').trigger('click');
+
+  // Then
+  expect(wrapper.get('.error').text()).toBe('Invalid Name.');
+})
