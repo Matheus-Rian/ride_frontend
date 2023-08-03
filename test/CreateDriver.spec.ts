@@ -1,6 +1,8 @@
 import { mount } from "@vue/test-utils";
 import CreateDriverVue from '../src/CreateDriver.vue';
 import DriverGateway from "../src/infra/gateways/DriverGateway";
+import DriverGatewayHttp from "../src/infra/gateways/DriverGatewayHttp";
+import AxiosAdapter from "../src/infra/gateways/http/AxiosAdapter";
 
 function sleep(time: number) {
   return new Promise((resolve) => {
@@ -12,15 +14,15 @@ function sleep(time: number) {
 
 test('Deve criar um motorista', async () => {
   // given
-  const driverGateway: DriverGateway = {
-    async save (driver: any): Promise<any> {
-      return '46018082-2fa5-11ee-be56-0242ac120002';
-    }
-  }
+  // const driverGateway: DriverGateway = {
+  //   async create (driver: any): Promise<any> {
+  //     return '46018082-2fa5-11ee-be56-0242ac120002';
+  //   }
+  // }
   const wrapper = mount(CreateDriverVue, {
     global: {
       provide: {
-        driverGateway
+        driverGateway: new DriverGatewayHttp(new AxiosAdapter())
       }
     }
   });
