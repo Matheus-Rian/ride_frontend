@@ -1,25 +1,28 @@
 <script setup lang="ts">
   import { inject, ref } from 'vue';
   import DriverGateway from './infra/gateways/DriverGateway';
-import Driver from './domain/Driver';
+  import { DriverBuilder } from './domain/Driver';
 
-  const driver = ref(new Driver('', '', '', ''));
-  const driverId = ref('');
+  const driverBuilder = ref(new DriverBuilder());
+  const driver = ref();
   const driverGateway = inject('driverGateway') as DriverGateway;
 
   async function createDriver() {
-    driverId.value  = await driverGateway.save(driver.value);
+    driver.value = driverBuilder.value.build();
+    driver.value.driverId = await driverGateway.create(driver.value);
   }
 </script>
 
 <template>
-  <input class="driver-name" v-model="driver.name" />
-  <input class="driver-email" v-model="driver.email" />
-  <input class="driver-document" v-model="driver.document" />
-  <input class="driver-car-plate" v-model="driver.carPlate" />
+  <input class="driver-name" v-model="driverBuilder.name" />
+  <input class="driver-email" v-model="driverBuilder.email" />
+  <input class="driver-document" v-model="driverBuilder.document" />
+  <input class="driver-car-plate" v-model="driverBuilder.carPlate" />
 
   <button class="create-driver-button" @click="createDriver()">Create driver</button>
-  <div class="driver-id">{{ driverId }}</div>
+  <div v-if="driver">
+    <div class="driver-id">{{ driver.driverId }}</div>
+  </div>
 </template>
 
 <style scoped>
