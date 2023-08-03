@@ -10,6 +10,7 @@
 
   async function createPassenger() {
     try {
+      error.value = '';
       passenger.value = passengerBuilder.value.build();
       passenger.value.passengerId = await passengerGateway.create(passenger.value);
     } catch (e: any) {
