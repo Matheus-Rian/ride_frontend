@@ -5,11 +5,17 @@
 
   const driverBuilder = ref(new DriverBuilder());
   const driver = ref();
+  const error = ref();
   const driverGateway = inject('driverGateway') as DriverGateway;
 
   async function createDriver() {
-    driver.value = driverBuilder.value.build();
-    driver.value.driverId = await driverGateway.create(driver.value);
+    try {
+      error.value = '';
+      driver.value = driverBuilder.value.build();
+      driver.value.driverId = await driverGateway.create(driver.value);
+    } catch (e: any) {
+      error.value = e.message
+    }
   }
 </script>
 
@@ -18,7 +24,7 @@
   <input class="driver-email" v-model="driverBuilder.email" />
   <input class="driver-document" v-model="driverBuilder.document" />
   <input class="driver-car-plate" v-model="driverBuilder.carPlate" />
-
+  <div class="error">{{ error }}</div>
   <button class="create-driver-button" @click="createDriver()">Create driver</button>
   <div v-if="driver">
     <div class="driver-id">{{ driver.driverId }}</div>
