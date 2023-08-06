@@ -16,19 +16,24 @@
 
     }
   }
+
+  async function requestRide() {
+    ride.value.rideId = await rideGateway.request(ride.value);
+  }
 </script>
 <template>
   <div>
+    <input class="ride-passenger-id" type="text" v-model="rideBuilder.passengerId">
     <input class="ride-from-lat" type="text" v-model="rideBuilder.fromLat">
     <input class="ride-from-long" type="text" v-model="rideBuilder.fromLong">
     <input class="ride-to-lat" type="text" v-model="rideBuilder.toLat">
     <input class="ride-to-long" type="text" v-model="rideBuilder.toLong">
     <button class="calculate-ride-button" @click="calculateRide()">Calculate Ride</button>
-
+    
     <div v-if="ride">
-      <div class="ride-price">
-        {{ ride.price }}
-      </div>
+      <div class="ride-price">{{ ride.price }}</div>
+      <div class="ride-id">{{ ride.rideId }}</div>
+      <button class="request-ride-button" @click="requestRide()">Request Ride</button>
     </div>
   </div>
 </template>
