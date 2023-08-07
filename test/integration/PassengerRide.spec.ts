@@ -4,6 +4,8 @@ import CreatePassengerVue from '../../src/view/CreatePassenger.vue';
 import RideGatewayHttp from '../../src/infra/gateways/RideGatewayHttp';
 import AxiosAdapter from '../../src/infra/gateways/http/AxiosAdapter';
 import PassengerGatewayHttp from '../../src/infra/gateways/PassengerGatewayHttp';
+import { GeoLocation } from '../../src/infra/geolocation/GeoLocation';
+import Coord from '../../src/domain/Coord';
 
 function sleep(time: number) {
   return new Promise((resolve) => {
@@ -14,10 +16,16 @@ function sleep(time: number) {
 }
 
 test('O passegeiro deve calcular o preço de uma corrida', async () => {
+  const geoLocation: GeoLocation = {
+    async getCoord (): Promise<Coord> {
+      return new Coord(-8.087602480277932, -34.94039886110192)
+    }
+  }
   const wrapper = mount(PassengerRideVue, {
     global: {
       provide: {
-        rideGateway: new RideGatewayHttp(new AxiosAdapter())
+        rideGateway: new RideGatewayHttp(new AxiosAdapter()),
+        geoLocation
       }
     }
   });
@@ -34,7 +42,7 @@ test('O passegeiro deve solicitar uma corrida', async () => {
   const wrapperCreatePassenger = mount(CreatePassengerVue, {
     global: {
       provide: {
-        passengerGateway: new PassengerGatewayHttp(new AxiosAdapter())
+        passengerGateway: new PassengerGatewayHttp(new AxiosAdapter()),
       }
     }
   });
@@ -45,10 +53,16 @@ test('O passegeiro deve solicitar uma corrida', async () => {
   await sleep(200);
   const passengerId = wrapperCreatePassenger.get('.passenger-id').text();
 
+  const geoLocation: GeoLocation = {
+    async getCoord (): Promise<Coord> {
+      return new Coord(-8.087602480277932, -34.94039886110192)
+    }
+  }
   const wrapperPassengerRide = mount(PassengerRideVue, {
     global: {
       provide: {
-        rideGateway: new RideGatewayHttp(new AxiosAdapter())
+        rideGateway: new RideGatewayHttp(new AxiosAdapter()),
+        geoLocation
       }
     }
   });

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-  import { inject, ref } from 'vue';
+  import { inject, onMounted, ref } from 'vue';
   import { RideBuilder } from '../domain/Ride';
   import RideGateway from '../infra/gateways/RideGateway';
+  import { GeoLocation } from '../infra/geolocation/GeoLocation';
 
   const rideBuilder = ref(new RideBuilder());
   const ride = ref();
 
   const rideGateway = inject('rideGateway') as RideGateway;
+  const geoLocation = inject('geoLocation') as GeoLocation;
 
   async function calculateRide() {
     try {
@@ -20,6 +22,12 @@
   async function requestRide() {
     ride.value.rideId = await rideGateway.request(ride.value);
   }
+
+  onMounted(async () => {
+    const coord = await geoLocation.getCoord();
+    rideBuilder.value.fromLat = coord.lat;
+    rideBuilder.value.fromLong = coord.long;
+  });
 </script>
 <template>
   <div>
